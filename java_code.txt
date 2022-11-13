@@ -1,0 +1,247 @@
+package com.example.calculator;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.support.v4.os.IResultReceiver;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.android.material.button.MaterialButton;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import java.util.Objects;
+
+public class MainActivity extends AppCompatActivity {
+
+
+    TextView result_tv , solution_tv;
+    MaterialButton button_C , button_OpenBracket , button_Close_Bracket ,button_Divide,button_7,button_8,button_9,button_Multiply ,button_4,
+            button_5 ,button_6,button_Add ,button_one ,button_2,button_3 ,button_Sub ,button_AC , button_0 , button_Dot,button_Equal;
+
+    Boolean Add , Sub , Mul ,Div;
+//    double num1 =0;
+//    double num2 =0;
+//    int sum;
+    float Res1 , Res2;
+    String progress;
+
+    String operator = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
+        getSupportActionBar().hide(); // hide the title bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN); //enable full screen
+        setContentView(R.layout.activity_main);
+
+
+
+        String curr = " ";
+
+
+
+        result_tv = findViewById(R.id.result_tv);
+        solution_tv = findViewById(R.id.solution_tv);
+        button_0 = findViewById(R.id.button_0);
+        button_one = findViewById(R.id.button_one);
+        button_2 = findViewById(R.id.button_2);
+        button_3 = findViewById(R.id.button_3);
+        button_4 = findViewById(R.id.button_4);
+        button_5 = findViewById(R.id.button_5);
+        button_6 = findViewById(R.id.button_6);
+        button_7 = findViewById(R.id.button_7);
+        button_8 = findViewById(R.id.button_8);
+        button_9 = findViewById(R.id.button_9);
+        button_OpenBracket = findViewById(R.id.button_OpenBracket);
+        button_C = findViewById(R.id.button_C);
+        button_Close_Bracket = findViewById(R.id.button_Close_Bracket);
+        button_Divide = findViewById(R.id.button_Divide);
+        button_Multiply = findViewById(R.id.button_Multiply);
+        button_Add= findViewById(R.id.button_Add);
+        button_Sub = findViewById(R.id.button_Sub);
+        button_AC = findViewById(R.id.button_AC);
+        button_Dot = findViewById(R.id.button_Dot);
+        button_Equal = findViewById(R.id.button_Equal);
+
+        button_0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "0");
+            }
+
+        });
+        button_one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "1");
+            }
+        });
+        button_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "2");
+            }
+        });
+        button_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "3");
+            }
+        });
+        button_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "4");
+            }
+        });
+        button_5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "5");
+            }
+        });
+
+        button_6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "6");
+            }
+        });
+
+
+        button_7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "7");
+            }
+        });
+        button_8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + "8");
+            }
+        });
+        button_9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               progress  = result_tv.getText().toString();
+               result_tv.setText(progress + "9");
+            }
+        });
+        button_Dot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                progress  = result_tv.getText().toString();
+                result_tv.setText(progress + ".");
+            }
+        });
+        button_C.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = (String) result_tv.getText();
+                result_tv.setText(str.substring(0,str.length()-1));
+            }
+        });
+        button_AC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                  result_tv.setText(" ");
+                  solution_tv.setText("0");
+            }
+        });
+
+        button_OpenBracket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                progress = result_tv.getText().toString();
+                result_tv.setText(progress + "(");
+            }
+        });
+        button_Close_Bracket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progress = result_tv.getText().toString();
+                result_tv.setText(progress + ")");
+            }
+        });
+
+      button_Divide.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              progress = result_tv.getText().toString();
+              result_tv.setText(progress + "/");
+          }
+      });
+      button_Multiply.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              progress = result_tv.getText().toString();
+              result_tv.setText(progress + "*");
+          }
+      });
+
+
+      button_Sub.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              progress = result_tv.getText().toString();
+              result_tv.setText(progress + "-");
+          }
+      });
+
+
+    button_Add.setOnClickListener(new View.OnClickListener() {
+    @Override
+        public void onClick(View view) {
+        progress = result_tv.getText().toString();
+        result_tv.setText(progress + "+");
+        }
+     });
+        button_Equal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                progress = result_tv.getText().toString();
+
+                progress=progress.replaceAll("×","*");
+              //  progress=progress.replaceAll("%","/100");
+                progress=progress.replaceAll("÷","/");
+
+                Context rhino = Context.enter();
+                rhino.setOptimizationLevel(-1);
+
+                String finalResult="";
+
+                Scriptable scriptable=rhino.initStandardObjects();
+                finalResult=rhino.evaluateString(scriptable,progress,"Javsscript",1,null).toString();
+
+                solution_tv.setText(finalResult);
+
+            }
+
+        });
+
+
+    }
+
+
+}
